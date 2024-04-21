@@ -3,14 +3,14 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCCvVRRoACRKzTvM33XMCU4tyEefMo5r78",
-  authDomain: "ornate-justice-418317.firebaseapp.com",
-  databaseURL: "https://ornate-justice-418317-default-rtdb.firebaseio.com",
-  projectId: "ornate-justice-418317",
-  storageBucket: "ornate-justice-418317.appspot.com",
-  messagingSenderId: "111775540124",
-  appId: "1:111775540124:web:4f1c48f24e03bdc4e59e59",
-  measurementId: "G-YC41NEYJYH",
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY!,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN!,
+  databaseURL: process.env.EXPO_PUBLIC_FIREBASE_DATABASE_URL!,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID!,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET!,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID!,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID!,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID!,
 };
 
 const app = initializeApp(firebaseConfig);
