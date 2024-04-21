@@ -1,31 +1,50 @@
-import { StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import React, { useState } from "react";
+import { onValue, ref, set } from "firebase/database";
+import { db } from "@/firebaseConfig";
+import { PeopleType } from "@/types";
+import Chat from "@/components/chat";
+//import { people } from "@/data/constants";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+const HomePage = () => {
+  var people: PeopleType[] = [];
 
-export default function TabOneScreen() {
+  function writeUserData(userId: string, name: string, image: string) {
+    set(ref(db, "users/" + userId), {
+      id: userId,
+      name: name,
+      image: image,
+    });
+  }
+
+  //NOTE: uncomment this code to write data to the database
+
+  //for (let i = 0; i < peoples.length; i++) {
+  // writeUserData(peoples[i].id.toString(), peoples[i].name, peoples[i].image);
+  //}
+
+  //console.log("Data written successfully!");
+
+  const users = ref(db, "users");
+  onValue(users, (snapshot) => {
+    const data = snapshot.val();
+    people = data;
+  });
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <ScrollView>
+      {people.map((person: PeopleType) => (
+        <Chat
+          key={person.id}
+          name={person.name}
+          image={person.image}
+          id={person.id}
+        />
+      ))}
+    </ScrollView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+const styles = StyleSheet.create({});
+
+export default HomePage;
